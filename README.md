@@ -10,6 +10,7 @@ This repository contains the supplementary code for the paper "*Sky islands of S
 ---
 
 ## Folder Structure
+```
 Sky-Islands-Supplement-Code/
 │
 ├── Model_Train/
@@ -49,7 +50,7 @@ Sky-Islands-Supplement-Code/
 └── README.md
 │
 └── requirements.txt
-
+```
 
 ## Installation
 
