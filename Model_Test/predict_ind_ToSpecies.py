@@ -37,9 +37,9 @@ test_transform = transforms.Compose(
 
 # load test dataset
 test_dataset = datasets.ImageFolder(test_path, test_transform)
-print("测试集图像数量", len(test_dataset))
-print("类别个数", len(test_dataset.classes))
-print("各类别名称", test_dataset.classes)
+print("Test image", len(test_dataset))
+print("class num", len(test_dataset.classes))
+print("class name", test_dataset.classes)
 
 # load json
 json_file = open(f"{data_dir}/data/genus_labels.json", "r")

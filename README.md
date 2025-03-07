@@ -75,9 +75,17 @@ Sky-Islands-Supplement-Code/
     ```
     Before you run the script, make sure the dataset is in the folder `/data/` and have been split into train and test sets.
 
-2. **HISNet Training**:
+2. **HISNET Train**:
     In the `HISNet_Train` directory, you can find the scripts for training the EfficientNet-B3 model and species classifiers. To train the EfficientNet-B3 model, navigate to `HISNet_Train/Model_Train` and run:
     ```bash
     python EfficientNet-B3.py
     ```
     To train the species classifiers, navigate to `HISNet_Train/Species_Classifier_Train` and run the corresponding script for each species.
+
+3. **HISNET Test**:
+    To test the HISNET model, navigate to the `HISNet_Test` directory and run:
+     ```bash
+     python predict_ind_ToSpecies.py
+     ```
+    This script will load the trained EfficientNet-B3 model and species classifiers, and predict the species for each specimen in the test dataset. The results will be saved in the `docs` folder.
+    Before you run the script, make sure the test dataset is in the folder `/data/test`.
