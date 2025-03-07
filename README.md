@@ -11,44 +11,127 @@ This repository contains the supplementary code for the paper "*Sky islands of S
 
 ## Folder Structure
 ```
-Sky-Islands-Supplement-Code/
-│
+Suplement_Code/
+├── Model_Test/
+│   ├── data/
+│   │   ├── genus_labels.json
+│   │   ├── more_species_labels.json
+│   │   └── species_labels.json
+│   ├── docs/
+│   │   └── Consequence.txt
+│   ├── species_classfier/
+│   │   ├── data/
+│   │   │   └── more_species_labels.json
+│   │   └── weights/
+│   │       ├── EB3_Euroscaptor/
+│   │       │   └── best_network.pth
+│   │       ├── EB3_Mogera/
+│   │       │   └── best_network.pth
+│   │       ├── EB3_Parascaptor/
+│   │       │   └── best_network.pth
+│   │       ├── EB3_Scapanus/
+│   │       │   └── best_network.pth
+│   │       ├── EB3_Scaptonyx/
+│   │       │   └── best_network.pth
+│   │       ├── EB3_Talpa/
+│   │       │   └── best_network.pth
+│   │       └── EB3_Uropsilus/
+│   │           └── best_network.pth
+│   ├── tools/
+│   │   ├── Early_Stopping.py
+│   │   ├── file_utils.py
+│   │   ├── get_sample_predict.py
+│   │   ├── GPU_Detecter.py
+│   │   └── SpeciesClassfier_ind.py
+│   ├── weights/
+│   │   └── EfficientNet-B3/
+│   │       └── best_network.pth
+│   └── predict_ind_ToSpecies.py
 ├── Model_Train/
-│   ├── AlexNet.py
-│   ├── EfficientNet-B0.py
-│   ├── EfficientNet-B2.py
-│   ├── EfficientNet-B3.py
-│   ├── EfficientNet-B4.py
-│   ├── GoogleNet.py
-│   ├── MobileNet-V2.py
-│   ├── MobileNet-V3Large.py
-│   ├── MobileNet-V3Small.py
-│   ├── ResNet_18.py
-│   ├── ResNet_34.py
-│   ├── ResNet_152.py
-│   ├── ShuffleNet-V2_05.py
-│   ├── ShuffleNet-V2_10.py
-│   ├── ShuffleNet-V2_15.py
-│   ├── ShuffleNet-V2_20.py
-│   ├── VGGNet_11.py
-│   ├── VGGNet_16.py
-│   ├── VGGNet_19.py
-│   └── tools/
-│
-├── HISNet_Train/
-│   ├── Model_Train/
-│   │   └── EfficientNet-B3.py
-│   ├── Species_Classifier_Train/
-│   │   ├── EfficientNet_B3_Euroscaptor.py
-│   │   ├── EfficientNet_B3_Mogera.py
-│   │   ├── EfficientNet_B3_Parascaptor.py
-│   │   ├── EfficientNet_B3_Scapanus.py
-│   │   ├── EfficientNet_B3_Scaptonyx.py
-│   │   ├── EfficientNet_B3_Talpa.py
-│   │   └── EfficientNet_B3_Uropsilus.py
-│
-└── README.md
-│
+│   ├── Baseline_Model_Compare_Train/
+│   │   ├── data/
+│   │   │   ├── test/
+│   │   │   ├── train/
+│   │   │   ├── genus_labels.json
+│   │   │   ├── more_species_labels.json
+│   │   │   └── species_labels.json
+│   │   ├── docs/
+│   │   │   └── Consequence.txt
+│   │   ├── logs/
+│   │   │   └── log.txt
+│   │   ├── tools/
+│   │   │   ├── Early_Stopping.py
+│   │   │   ├── extract_bestAcc.py
+│   │   │   ├── file_utils.py
+│   │   │   ├── get_par.py
+│   │   │   ├── get_scripts_name.py
+│   │   │   └── GPU_Detecter.py
+│   │   ├── weights/
+│   │   ├── AlexNet.py
+│   │   ├── EfficientNet-B0.py
+│   │   ├── EfficientNet-B2.py
+│   │   ├── EfficientNet-B3.py
+│   │   ├── EfficientNet-B4.py
+│   │   ├── GoogleNet.py
+│   │   ├── MobileNet-V2.py
+│   │   ├── MobileNet-V3Large.py
+│   │   ├── MobileNet-V3Small.py
+│   │   ├── ResNet_152.py
+│   │   ├── ResNet_18.py
+│   │   ├── ResNet_34.py
+│   │   ├── ShuffleNet-V2_05.py
+│   │   ├── ShuffleNet-V2_10.py
+│   │   ├── ShuffleNet-V2_15.py
+│   │   ├── ShuffleNet-V2_20.py
+│   │   ├── VGGNet_11.py
+│   │   ├── VGGNet_16.py
+│   │   └── VGGNet_19.py
+│   └── HISNet_Train/
+│       ├── Model_Train/
+│       │   ├── data/
+│       │   │   ├── test/
+│       │   │   ├── train/
+│       │   │   ├── genus_labels.json
+│       │   │   ├── more_species_labels.json
+│       │   │   └── species_labels.json
+│       │   ├── docs/
+│       │   │   └── Consequence.txt
+│       │   ├── logs/
+│       │   │   └── log.txt
+│       │   ├── tools/
+│       │   │   ├── Early_Stopping.py
+│       │   │   ├── extract_bestAcc.py
+│       │   │   ├── file_utils.py
+│       │   │   ├── get_par.py
+│       │   │   ├── get_scripts_name.py
+│       │   │   └── GPU_Detecter.py
+│       │   ├── weights/
+│       │   └── EfficientNet-B3.py
+│       └── Species_Classfier_Train/
+│           ├── data/
+│           │   ├── test/
+│           │   ├── train/
+│           │   └── more_species_labels.json
+│           ├── docs/
+│           ├── logs/
+│           ├── tools/
+│           │   ├── Early_Stopping.py
+│           │   ├── extract_bestAcc.py
+│           │   ├── file_utils.py
+│           │   ├── generate_json_list.py
+│           │   ├── get_par.py
+│           │   ├── get_scripts_name.py
+│           │   └── GPU_Detecter.py
+│           ├── weights/
+│           ├── EfficientNet_B3_Euroscaptor.py
+│           ├── EfficientNet_B3_Mogera.py
+│           ├── EfficientNet_B3_Parascaptor.py
+│           ├── EfficientNet_B3_Scapanus.py
+│           ├── EfficientNet_B3_Scaptonyx.py
+│           ├── EfficientNet_B3_Talpa.py
+│           └── EfficientNet_B3_Uropsilus.py
+├── file_tree.py
+├── README.md
 └── requirements.txt
 ```
 
