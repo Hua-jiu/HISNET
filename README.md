@@ -4,8 +4,8 @@
 
 This repository contains the supplementary code for the paper "*Sky islands of Southwest China. II: Unraveling hidden species diversity of talpid moles using phylogenomics and skull-based deep learning*". The code is organized into two main folders, **Model_Train** and **HISNet_Train**, each serving distinct purposes in the context of the research.
 
-- **Model_Train**: This folder includes scripts to train various baseline models on the dataset.
-- **HISNet_Train**: This folder focuses on training the EfficientNet-B3 model and species classifiers for different species.
+- **Model_Train**: This folder includes scripts to train various baseline models on the dataset, and the scripts for training the HISNET model (including species classifiers for each species).
+- **Model_Test**: This folder focuses on testing the HISNET model we have trained on the dataset and evaluating its performance. You can also train you owe model and replace the weight file in the **Model_Test** folder to test your model.
 
 ---
 
