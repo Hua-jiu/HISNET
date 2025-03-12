@@ -139,7 +139,7 @@ Suplement_Code/
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/Hua-jiu/Sky-islands-of-Southwest-China.-II-Supplement-Code.git
+   git clone https://github.com/Hua-jiu/HISNET.git
    ```
 
 2. **Install required packages**:
