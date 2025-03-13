@@ -2,7 +2,7 @@
 
 ## Description
 
-This repository contains the supplementary code for the paper "*Sky islands of Southwest China. II: Unraveling hidden species diversity of talpid moles using phylogenomics and skull-based deep learning*". The code is organized into two main folders, **Model_Train** and **HISNet_Train**, each serving distinct purposes in the context of the research.
+This repository contains the supplementary code for the paper "*Sky islands of Southwest China. II: Unraveling hidden species diversity of talpid moles using phylogenomics and skull-based deep learning*". The code is organized into two main folders, **Model_Train** and **HISNET_Train**, each serving distinct purposes in the context of the research.
 
 - **Model_Train**: This folder includes scripts to train various baseline models on the dataset, and the scripts for training the HISNET model (including species classifiers for each species).
 - **Model_Test**: This folder focuses on testing the HISNET model we have trained on the dataset and evaluating its performance. You can also train you owe model and replace the weight file in the **Model_Test** folder to test your model.
@@ -86,7 +86,7 @@ Suplement_Code/
 │   │   ├── VGGNet_11.py
 │   │   ├── VGGNet_16.py
 │   │   └── VGGNet_19.py
-│   └── HISNet_Train/
+│   └── HISNET_Train/
 │       ├── Model_Train/
 │       │   ├── data/
 │       │   │   ├── test/
@@ -152,23 +152,24 @@ Suplement_Code/
 ## How to Use
 
 1. **Baseline Model Comparing**:
-    Navigate to the `Model_Train` directory and execute the desired script to train a specific baseline model. For example:
+    Navigate to the `Model_Train` directory. Once there, execute the desired script in order to train a specific baseline model. For instance, you can run the following command to start training one of the models:
     ```bash
     python AlexNet.py
     ```
-    Before you run the script, make sure the dataset is in the folder `/data/` and have been split into train and test sets.
+    Before you initiate the execution of the script, ensure that the dataset is located in the folder `/data/`. Additionally, make sure that the dataset has been split into train and test sets. This is crucial for the proper training of the model. The training process will be logged in the `log.txt` file within the `logs` directory, and the training results will be saved in the `docs` directory. The model weights will be stored in the `weights` directory. The `tools` directory contains utility scripts that will assist in the training process.
 
 2. **HISNET Train**:
-    In the `HISNet_Train` directory, you can find the scripts for training the EfficientNet-B3 model and species classifiers. To train the EfficientNet-B3 model, navigate to `HISNet_Train/Model_Train` and run:
+    In the HISNET_Train directory, one can discover the scripts that are specifically designed for training the EfficientNet-B3 model as well as species classifiers. Our HISNET model has implemented a hierarchical classification scheme. This scheme involves employing a cascade of classifiers that work in a sequential manner to identify specimens first to the genus level and then to the species level. After conducting a thorough comparison among different models, we made the decision to select the EfficientNet-B3 model as our first level classifier. To train the EfficientNet-B3 model, navigate to `HISNET_Train/Model_Train` and run:
     ```bash
     python EfficientNet-B3.py
     ```
-    To train the species classifiers, navigate to `HISNet_Train/Species_Classifier_Train` and run the corresponding script for each species.
+    After you have completed the training of the EfficientNet-B3 model, you can then move on to train the species classifiers. It is crucial to note that before commencing the execution of the script, ensure that the dataset is precisely located in the folder named `/data/`. Moreover, double-check that the dataset has been properly split into train and test sets. In order to train the species classifiers, make your way to `HISNET_Train/Species_Classifier_Train`. Then, run the corresponding script for each individual species.
+    The `HISNET_Train/Species_Classifier_Train/data/more_species_labels.json` file holds the labels for the species classifiers. If you wish to train a brand new species classifier, it is necessary to modify the labels within this specific file.
 
 3. **HISNET Test**:
-    To test the HISNET model, navigate to the `HISNet_Test` directory and run:
+    To test the HISNET model, navigate to the `Model_Test` directory and run:
      ```bash
      python predict_ind_ToSpecies.py
      ```
-    This script will load the trained EfficientNet-B3 model and species classifiers, and predict the species for each specimen in the test dataset. The results will be saved in the `docs` folder.
     Before you run the script, make sure the test dataset is in the folder `/data/test`.
+    This script is designed to load the trained EfficientNet-B3 model as well as species classifiers. Its primary purpose is to predict the species for each specimen within the test dataset. Initially, the data will undergo classification at the genus level by means of the EfficientNet-B3 model. Subsequently, the outcome of this genus-level classification will be fed into the `/tools/get_sample_predict.py` script. This script will then obtain the prediction at the specimen level. For each specimen, every image will be assigned the same genus prediction label. Following this step, the species classifiers will be employed to predict the species level for every individual specimen. Once again, the results of these species-level predictions will be securely saved in the `docs` folder.
