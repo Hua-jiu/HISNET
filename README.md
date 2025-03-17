@@ -130,9 +130,8 @@ Suplement_Code/
 │           ├── EfficientNet_B3_Scaptonyx.py
 │           ├── EfficientNet_B3_Talpa.py
 │           └── EfficientNet_B3_Uropsilus.py
-├── file_tree.py
-├── README.md
-└── requirements.txt
+├── environment.yml
+└── README.md
 ```
 
 ## Installation
@@ -143,11 +142,9 @@ Suplement_Code/
    ```
 
 2. **Install required packages**:
-   Ensure you have Python (version 3.10 or higher) and the necessary libraries installed. You can create a virtual environment and install the required packages using `requirements.txt`:
+   Ensure that you have installed Conda on your Linux system. To install the required packages, use the `environment.yml` file, which contains a list of all necessary dependencies. Navigate to the directory where the `environment.yml` is located in your terminal and run:
    ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
-   pip install -r requirements.txt
+   conda env create -f environment.yml
    ```
 ## How to Use
 
