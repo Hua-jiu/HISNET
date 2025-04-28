@@ -1,0 +1,56 @@
+{
+    "Scapanus": [
+        "Scapanus latimanus",
+        "Scapanus occultus",
+        "Scapanus orarius",
+        "Scapanus townsendii"
+    ],
+    "Mogera": [
+        "Mogera etigo",
+        "Mogera hainana",
+        "Mogera imaizumii",
+        "Mogera insularis",
+        "Mogera kanoana",
+        "Mogera latouchei",
+        "Mogera robusta",
+        "Mogera tokudae",
+        "Mogera wogura"
+    ],
+    "Euroscaptor": [
+        "Euroscaptor grandis",
+        "Euroscaptor klossi",
+        "Euroscaptor kuznetsovi",
+        "Euroscaptor longirostris",
+        "Euroscaptor malayana",
+        "Euroscaptor micrura",
+        "Euroscaptor orlovi",
+        "Euroscaptor parvidens",
+        "Euroscaptor sp1"
+    ],
+    "Talpa": [
+        "Talpa altaica",
+        "Talpa aquitania",
+        "Talpa caeca",
+        "Talpa europaea",
+        "Talpa levantis",
+        "Talpa romana",
+        "Talpa talyschensis"
+    ],
+    "Uropsilus": [
+        "Uropsilus andersoni",
+        "Uropsilus gracilis",
+        "Uropsilus investigator",
+        "Uropsilus nivatus",
+        "Uropsilus soricipes"
+    ],
+    "Parascaptor": [
+        "Parascaptor leucura",
+        "Parascaptor sp1",
+        "Parascaptor sp2"
+    ],
+    "Scaptonyx": [
+        "Scaptonyx fusicaudus",
+        "Scaptonyx sp1",
+        "Scaptonyx sp3"
+    ]
+}
