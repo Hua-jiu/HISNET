@@ -5,11 +5,11 @@ import shutil
 
 
 
-def delete_Dstore(path):  # 删除.Ds_Store文件
-    """to delete the Dstore file in MacOS
+def delete_Dstore(path):  # Delete .DS_Store files
+    """Delete .DS_Store files in macOS directories.
 
     Args:
-        path (str): the path of the dir you want to delete DS_Store
+        path (str): Directory path to clean DS_Store files.
     """
     for a, _, c in os.walk(path, topdown=True):
         for file in c:
@@ -17,11 +17,14 @@ def delete_Dstore(path):  # 删除.Ds_Store文件
                 os.remove(f'{a}/.DS_Store')
 
 
-def file_copy(src, target, desame_flag=False):  # 复制文件
+def file_copy(src, target, desame_flag=False):  # Copy file
     """
-    src:原文件地址
-    target:目标文件地址
-    desame_flag:是否重命名文件已保证不替换原名文件
+    Copy file from src to target.
+
+    Args:
+        src (str): source file path
+        target (str): destination file path
+        desame_flag (bool): if True, rename to avoid overwriting same-name file
     """
     if not os.path.exists(target):
         with open(src, 'rb') as rstream:
@@ -53,26 +56,31 @@ def file_copy(src, target, desame_flag=False):  # 复制文件
         return False
 
 
-def file_move(src, target):  # 剪切文件
+def file_move(src, target):  # Move file
     """
-    src:原文件地址
-    target:目标文件地址
+    Move file from src to target.
+
+    Args:
+        src (str): source file path
+        target (str): destination file path
     """
     file_copy(src, target, True)
     os.remove(src)
 
 
-def text_segmentation(text, split, reverse=False):  # 进行文本分割
+def text_segmentation(text, split, reverse=False):  # Text segmentation
     """
-    根据特定符号进行文本分割/组合
-    text:字符串/数组
-    split:指定符号
-    reverse:为TRUE时将数组重新组合成字符串
+    Split or join text by a separator.
+
+    Args:
+        text (str | list): string or list
+        split (str): separator
+        reverse (bool): if True, join list into a string
     """
     temp = ''
     num = 0
     output = text
-    n = text.count(split)  # 统计文本分割次数
+    n = text.count(split)  # Count occurrences of separator
     if reverse:
         for ele in text:
             if num == 0:
@@ -86,28 +94,28 @@ def text_segmentation(text, split, reverse=False):  # 进行文本分割
         n = 0
         return [output]
     if n != 0:
-        output = text.split(split, n)  # 进行文本分割
+        output = text.split(split, n)  # Perform splitting
     return output
 
 
 def rename_dir_without_suffix(file_list, file_type, root_path):
     """
-    重命名文件夹
+    Rename files in list without suffix indicator.
     """
     for file in file_list:
         if file.count('_') < 2:
             output = text_segmentation(file, split='.')
-            new_filename = f'{root_path}/{output[0]}_s_{file_type}.{output[-1]}'  # 上颌骨_s_ 下颌骨_m_
+            new_filename = f'{root_path}/{output[0]}_s_{file_type}.{output[-1]}'  # maxilla _s_, mandible _m_
             try:
                 os.rename(f'{root_path}/{file}', new_filename)
             except FileNotFoundError:
-                continue  # 可能遍历到重复文件
+                continue  # May encounter duplicate files
 
 
 def delete_blankdir(path):
     """
-    删除空白文件夹
-    path:开始遍历的起始地址
+    Delete empty directories
+    path: start directory
     """
     delete_Dstore(path)
     for root, dir_list, filename_list in os.walk(path, topdown=True):
@@ -117,7 +125,7 @@ def delete_blankdir(path):
 
 def count_file(path):
     """
-    统计文件夹中所有文件的个数
+    Count all files in directory
     """
     delete_Dstore(path)
     file_num = 0
@@ -129,9 +137,9 @@ def count_file(path):
 
 def rename_file(ori_file_path, new_filename):
     """
-    重命名文件
-    ori_file_path:原始文件地址
-    new_filename:文件新名称
+    Rename file
+    ori_file_path: original file path
+    new_filename: new filename
     """
     ori_filename = text_segmentation(ori_file_path, '/')[-1]
     temp = text_segmentation(ori_file_path, '/')

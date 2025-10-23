@@ -17,7 +17,7 @@ class SpeceseClassifier:
         json_file = open(f"{data_dir}/data/more_species_labels.json", "r")
         class_indict = json.load(json_file)
 
-        # 各种级分类器的分类数
+        # Number of classes for each genus classifier
         self.model1_Euroscaptor_num = len(class_indict["Euroscaptor"])
         self.model2_Mogera_num = len(class_indict["Mogera"])
         self.model3_Parascaptor_num = len(class_indict["Parascaptor"])
@@ -26,7 +26,7 @@ class SpeceseClassifier:
         self.model6_Talpa_num = len(class_indict["Talpa"])
         self.model7_Uropsilus_num = len(class_indict["Uropsilus"])
 
-        # 各种级分类器的权重参数文件
+        # Weight files for each genus classifier
         self.data_dir = data_dir
         self.weights_Euroscaptor_path = (
             f"{self.data_dir}/weights/EB3_Euroscaptor/best_network.pth"
@@ -48,7 +48,7 @@ class SpeceseClassifier:
             f"{self.data_dir}/weights/EB3_Uropsilus/best_network.pth"
         )
 
-        # 初始化模型,载入权重文件
+        # Initialize models and load weight files
         self.model_init()
 
     def model_init(self):

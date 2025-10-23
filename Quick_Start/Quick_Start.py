@@ -23,11 +23,16 @@ warnings.filterwarnings("ignore")
 device = torch.device(f"cuda:{GPU_Detect()}" if torch.cuda.is_available() else "cpu")
 sp_classfier = SpeceseClassifier(device, species_classfier_path)  # init species classfier
 print("Species Classfier Initialized Done")
+print(f"Device: {device}")
+print(f"Classifier path: {os.path.abspath(species_classfier_path)}")
 
 
 # data folder path
 dataset_dir = f"{data_dir}/data"
 test_path = os.path.join(dataset_dir, "test")
+print(f"Data directory: {dataset_dir}")
+print(f"Test set path: {test_path}")
+print(f"CUDA available: {torch.cuda.is_available()}")
 
 test_transform = transforms.Compose(
     [
@@ -35,16 +40,19 @@ test_transform = transforms.Compose(
         transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
     ]
 )
+print("Transforms configured: ToTensor + Normalize")
 
 # load test dataset
 test_dataset = datasets.ImageFolder(test_path, test_transform)
 print("Test image", len(test_dataset))
 print("class num", len(test_dataset.classes))
 print("class name", test_dataset.classes)
+print(f"Class-to-index mapping: {test_dataset.class_to_idx}")
 
 # load json
 json_file = open(f"{data_dir}/data/genus_labels.json", "r")
 class_indict = json.load(json_file)
+print(f"Loaded genus label dictionary, count: {len(class_indict)}")
 
 # load model
 model = torchvision.models.efficientnet_b3()
@@ -52,6 +60,8 @@ model.classifier[1] = torch.nn.Linear(model.classifier[1].in_features, 18)
 model = model.to(device)
 weights_path = f"{data_dir}/weights/EfficientNet-B3/best_network.pth"
 model.load_state_dict(torch.load(weights_path, map_location="cpu"))
+print(f"Loaded model weights: {weights_path}")
+print("Genus classification model ready")
 
 genus_data_dict = {} # key:genus, value:ind_path
 for root, dir_list, file_list in os.walk(test_path):
@@ -69,11 +79,15 @@ for root, dir_list, file_list in os.walk(test_path):
             if genus_name not in genus_data_dict.keys():
                 genus_data_dict[genus_name] = []
             genus_data_dict[genus_name].append(ind_path)
+# Added summary info
+print(f"Aggregated test individuals: genera {len(genus_data_dict)}, individuals {sum(len(v) for v in genus_data_dict.values())}")
 
 model.eval()
 # predict genus label
+print("Starting genus prediction...")
 genus_predict_dict = {}
 for genus_name in genus_data_dict.keys():
+    print(f"Predicting genus {genus_name}, individual count {len(genus_data_dict[genus_name])}")
     for ind_path in genus_data_dict[genus_name]:
         predict_cla = get_sample_predict(ind_path, model, device, 18)
         predict_genus = class_indict[str(predict_cla)]
@@ -81,11 +95,15 @@ for genus_name in genus_data_dict.keys():
             genus_predict_dict[predict_genus] = [ind_path]
         else:
             genus_predict_dict[predict_genus].append(ind_path)
-# print(df)
+print("Genus prediction complete:")
+for g, inds in genus_predict_dict.items():
+    print(f"  {g}: {len(inds)} individuals")
 print("Genus Predict Done")
 
 # predict species label
+print("Starting species prediction...")
 sp_predict_dict = sp_classfier.predict(genus_predict_dict)
+print(f"Species prediction complete: {len(sp_predict_dict)} individuals")
 # print(sp_predict_dict)
 work_file = op.Workbook()
 sheet = work_file.active
@@ -161,3 +179,5 @@ for species_name in output_dict.keys():
 totalacc = true_num/(true_num+false_num)
 sheet2.append(['Total_ACC', totalacc])
 file.save(f'{data_dir}/docs/predict_ind_ToSpecies_B3.xlsx')
+print(f"Results saved: {data_dir}/docs/predict_ind_ToSpecies_B3.xlsx")
+print(f"Overall accuracy Total_ACC: {totalacc:.4f}")

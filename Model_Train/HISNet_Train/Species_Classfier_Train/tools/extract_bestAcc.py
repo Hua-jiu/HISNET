@@ -10,9 +10,9 @@ def extract_best_acc_from_file(file_path):
             if len(lines) < 2:
                 print(f"File {file_path} does not have enough lines.")
                 return None
-            # 获取倒数第二行
+            # Get the second-to-last line
             second_last_line = lines[-2]
-            # 使用正则表达式查找 best acc 的值
+            # Use regex to find the 'best acc' value
             match = re.search(r"best acc: ([0-9\.]+)", second_last_line)
             if match:
                 best_acc_value = float(match.group(1))
@@ -40,7 +40,7 @@ for file_name in os.listdir(docs_folder):
                 consequence_dict[file_name] = {}
             consequence_dict[file_name]['best_acc'] = best_acc
 
-# 可以对 best_acc_values 做进一步处理，比如打印或保存
+# Further process best_acc_values, e.g., print or save
 work_file = op.Workbook()
 work_sheet = work_file.active
 model_name_list = []

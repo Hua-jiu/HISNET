@@ -2,7 +2,7 @@ import os
 import ast
 import pandas as pd
 
-# 获取指定目录下的所有 Python 脚本
+# Get all Python scripts under a directory
 def get_python_scripts(directory):
     scripts = []
     for filename in os.listdir(directory):
@@ -10,26 +10,26 @@ def get_python_scripts(directory):
             scripts.append(os.path.join(directory, filename))
     return scripts
 
-# 解析 Python 脚本中的参数
+# Parse parameters from Python scripts
 def extract_params_from_script(script_path):
     with open(script_path, "r", encoding="utf-8") as file:
         tree = ast.parse(file.read(), filename=script_path)
 
     params = {"batch_size": None, "learning_rate": None, "step_size": None}
     for node in ast.walk(tree):
-        # 只获取赋值操作的参数
+        # Only capture parameters in assignment statements
         if isinstance(node, ast.Assign):
             for target in node.targets:
                 if isinstance(target, ast.Name):
                     if target.id in params:
-                        # 获取具体的参数值
+                        # Extract concrete parameter values
                         if isinstance(node.value, ast.Constant):
                             params[target.id] = node.value.value
-                        elif isinstance(node.value, ast.Num):  # 兼容旧的 python 版本
+                        elif isinstance(node.value, ast.Num):  # Compatible with older Python versions
                             params[target.id] = node.value.n
     return params
 
-# 获取所有脚本中的参数
+# Collect parameters from all scripts
 def get_model_params(directory):
     scripts = get_python_scripts(directory)
     model_data = []
@@ -42,17 +42,17 @@ def get_model_params(directory):
 
     return pd.DataFrame(model_data)
 
-# 绘制参数表
+# Render parameter table
 def plot_model_params(df, directory):
     print(df)
-    # 如果需要保存为 CSV 文件
+    # Save to Excel if needed
     df.to_excel(f"{directory}/docs/model_params.xlsx", index=False)
 
-# 指定你存放模型脚本的目录
+# Specify directory containing model scripts
 directory = "/mnt/storage-data2/anlong/MoleProject/New_data_Exp_20240410/Other_net_compare/To-Genus/Data_224"
 
-# 获取模型参数表
+# Build model parameter table
 df = get_model_params(directory)
 
-# 绘制或保存参数表
+# Render or save the parameter table
 plot_model_params(df, directory)

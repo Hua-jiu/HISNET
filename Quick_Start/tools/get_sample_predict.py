@@ -9,7 +9,7 @@ import math
 
 
 def get_sample_predict(sample_dir, model, device, class_num):
-    # 上下颌各面的统计准确率
+    # Per-view accuracy for maxilla and mandible
     s_l_acc = 0.9589
     s_d_acc = 0.9710
     s_v_acc = 0.9728
@@ -28,14 +28,14 @@ def get_sample_predict(sample_dir, model, device, class_num):
             transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
         ]
     )
-    # 遍历个体文件夹
+    # Iterate through individual folder
     samples = os.listdir(sample_dir)
     images = samples
     output = []
     weight_average_predict = [[]]
     for i in range(class_num):
         weight_average_predict[0].append(0)
-    # 先遍历一次一个个体中的所有样本图片
+    # First pass: iterate all sample images for one individual
     for image in images:
         image_path = os.path.join(sample_dir, image)
         img = Image.open(image_path)
@@ -48,13 +48,13 @@ def get_sample_predict(sample_dir, model, device, class_num):
             # output_pre = model(img.to(device)).cpu()
             output_pre = torch.softmax(output_pre, dim=0)
             # predict = torch.softmax(output_pre, dim=0)
-        # 将模型所输出的结果添加到output数组中
+        # Append model outputs to the output array
         # if sample_dir == "":
         #     a = torch.softmax(torch.squeeze(output_pre), dim=0)*100
         #     print(["{:.2f}%".format(percent) for percent in a])
         output.append(output_pre)
 
-    # 计算头骨各面的权重
+    # Compute weights for cranial views
     current_dir = os.path.abspath(__file__)
     weight_cache_dir = os.path.join(os.path.dirname(current_dir), "__pycache__")
     sensitivity = 10
@@ -74,10 +74,10 @@ def get_sample_predict(sample_dir, model, device, class_num):
         m_d_weight = weight_list[3]
 
     i = 0
-    # 再遍历一次一个个体中的所有样本图片
+    # Second pass: iterate all sample images for one individual
     weight_average_predict = torch.Tensor(weight_average_predict)
     a = weight_average_predict.shape
-    # 计算加权平均值
+    # Compute weighted average
     for image in images:
         image = ut.text_segmentation(image, ".")[0]
         image_flag = image.split("#")[4] + "#" + image.split("#")[5]
@@ -94,7 +94,7 @@ def get_sample_predict(sample_dir, model, device, class_num):
         elif image_flag == "m#l":
             weight_average_predict += m_d_weight * output[i]
         i += 1
-    # 得到加权结果中置信度最大的类
+    # Select class with highest confidence from weighted result
     weight_average_predict = torch.argmax(weight_average_predict).numpy()
 
     return weight_average_predict

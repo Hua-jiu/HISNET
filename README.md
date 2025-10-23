@@ -149,7 +149,7 @@ Suplement_Code/
 │   │   └── EfficientNet-B3/
 │   │       └── best_network.pth
 │   └── Quick_Start.py
-├── environment.yml
+├── project.toml
 └── README.md
 ```
 
@@ -158,12 +158,18 @@ Suplement_Code/
 1. **Clone the repository**:
    ```bash
    git clone https://github.com/Hua-jiu/HISNET.git
+   cd HISNET
    ```
 
 2. **Install required packages**:
-   Ensure that you have installed Conda on your Linux system. To install the required packages, use the `environment.yml` file, which contains a list of all necessary dependencies. Navigate to the directory where the `environment.yml` is located in your terminal and run:
+   Ensure that you have installed uv on your Linux system (https://docs.astral.sh/uv/getting-started/installation). HISNET requires Python >= 3.10.
    ```bash
-   conda env create -f environment.yml
+   # Create and activate a virtual environment with Python 3.10
+   uv venv --python=3.10
+   source .venv/bin/activate
+
+   # Install dependencies from project.toml
+   uv pip install -e .
    ```
 ## Quick Start
 
@@ -182,7 +188,7 @@ Suplement_Code/
 
     This Python script is specifically designed to initialize and run the HISNET model. When you execute it, the model will start processing, analyzing the input data related to talpidae mole samples, and generate identification results.
 
-    After running the script, you can expect to see the identification results of different talpidae mole samples in the `./Quick_Start/docs` .
+    After running the script, you can expect to see the identification results of different talpidae mole samples in the `./Quick_Start/docs`.
 
 ## Get your own model
 
@@ -190,6 +196,10 @@ Suplement_Code/
 
 1. **Preparing the Dataset**:
     Before training, ensure that your dataset is placed in the `/data/` folder relative to the current working directory. Each image in the dataset should be isolated with a size of **224x224** pixels. Additionally, split the dataset into separate train and test sets in an appropriate ratio (e.g., 80% for training and 20% for testing). This split is essential for accurately assessing the model's generalization ability during training.
+
+    To ensure the subsequent testing scripts run correctly, please make sure that the image filenames follow the naming convention:
+    **`genus_label#species_label#individual_label#image_number#sample_type#sample_view`**.
+    You can also find a naming example in the `HISNET/Quick_Start/data/` folder.
 
 2. **Select and Run a Baseline Model Script**
    In the `Model_Train/Baseline_Model_Compare_Train` directory, you'll find various scripts for different baseline models. To start training a specific model, such as AlexNet, execute the corresponding Python script using the following command:
@@ -253,5 +263,23 @@ Suplement_Code/
    + **Genus - Level Classification**: When you run the `predict_ind_ToSpecies.py` script, the data will first be classified at the genus level using the EfficientNet-B3 model (or your modified baseline model). The model processes the input images and generates genus - level predictions based on the learned patterns in the training data.
 
    + **Specimen - Level Prediction**: The results of the genus-level classification are then passed to the `/tools/``get_sample_predict.py` script. This script processes the genus - level predictions and assigns the same genus prediction label to every image within each specimen. This step aggregates the individual image predictions to the specimen level, providing a more comprehensive view of the classification for each sample.
+   For your own project, you can change the weight of each image view contribute to the final specimens prediction in the `get_sample_predict.py` script. You may need to change lines like:
+   ```python
+   def get_sample_predict(sample_dir, model, device, class_num):
+       # Statistical accuracy for upper and lower jaw surfaces
+       s_l_acc = 0.9589
+       s_d_acc = 0.9710
+       s_v_acc = 0.9728
+       m_d_acc = 0.9503
+   ```
+   to something like:
+   ```python
+   def get_sample_predict(sample_dir, model, device, class_num):
+       # Statistical accuracy for upper and lower jaw surfaces
+       s_l_acc = "your skull lateral surface accuracy"
+       s_d_acc = "your skull dorsal surface accuracy"
+       s_v_acc = "your skull ventral surface accuracy"
+       m_d_acc = "your mandible dorsal surface accuracy"
+   ```
 
-    + **Species - Level Classification**: Finally, the species classifiers are utilized to predict the species for each individual specimen. These classifiers take the specimen - level genus information and further analyze the data to determine the specific species. The results of these species-level predictions are saved in the `docs` folder for easy access and review. You can find detailed prediction reports, accuracy metrics, and other relevant information in this folder, which can be used for further analysis and evaluation of the HISNET model's performance.
+   + **Species - Level Classification**: Finally, the species classifiers are utilized to predict the species for each individual specimen. These classifiers take the specimen - level genus information and further analyze the data to determine the specific species. The results of these species-level predictions are saved in the `docs` folder for easy access and review. You can find detailed prediction reports, accuracy metrics, and other relevant information in this folder, which can be used for further analysis and evaluation of the HISNET model's performance.

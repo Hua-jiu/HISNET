@@ -27,7 +27,7 @@ batch_size = 16
 learning_rate = 0.001
 num_epochs = 125
 step_size = 25
-# 分类数
+# Number of classes
 num_class = genus_name_dict[genus_name]
 patience = 30
 
@@ -46,7 +46,7 @@ print(device, file=log_txt)
 train_path = f"./data/train/{genus_name}"
 
 test_path = f"./data/test/{genus_name}"
-weights_path = f"./weights/efficientnetb3.pth"  #  迁移学习
+weights_path = f"./weights/efficientnetb3.pth"  # Transfer learning
 
 transform = torchvision.transforms.Compose(
     [

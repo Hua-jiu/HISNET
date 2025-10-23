@@ -1,0 +1,140 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "HISNET"
+version = "1.0.0"
+description = "HISNET: Hierarchical Species Identification Network for talpid mole species classification using skull-based deep learning"
+readme = "README.md"
+license = {text = "MIT"}
+keywords = ["deep learning", "species identification", "computer vision", "taxonomy", "EfficientNet"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "Topic :: Scientific/Engineering :: Image Recognition",
+    "Topic :: Scientific/Engineering :: Bio-Informatics"
+]
+requires-python = ">=3.10"
+dependencies = [
+    # Core deep learning frameworks
+    "torch>=1.12.0,<3.0.0",
+    "torchvision>=0.13.0,<1.0.0",
+
+    # Essential numerical computing
+    "numpy>=1.21.0,<2.0.0",
+
+    # Computer vision and image processing
+    "opencv-python>=4.5.0,<5.0.0",
+    "pillow>=8.0.0,<11.0.0",
+
+    # Data processing
+    "pandas>=1.3.0,<3.0.0",
+    "openpyxl>=3.0.0,<4.0.0",
+
+    # Training utilities
+    "tqdm>=4.60.0,<5.0.0",
+    "tensorboard>=2.8.0,<3.0.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0,<8.0.0",
+    "pytest-cov>=3.0.0,<5.0.0",
+    "black>=22.0.0,<24.0.0",
+    "flake8>=4.0.0,<7.0.0",
+    "isort>=5.10.0,<6.0.0"
+]
+analysis = [
+    "matplotlib>=3.5.0,<4.0.0",
+    "seaborn>=0.11.0,<1.0.0",
+    "scikit-learn>=1.0.0,<2.0.0",
+    "jupyter>=1.0.0,<2.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/Hua-jiu/HISNET"
+Repository = "https://github.com/Hua-jiu/HISNET.git"
+Documentation = "https://github.com/Hua-jiu/HISNET/blob/main/README.md"
+"Bug Tracker" = "https://github.com/Hua-jiu/HISNET/issues"
+
+[tool.setuptools]
+packages = ["Model_Test", "Model_Train", "Quick_Start"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+"*" = ["*.json", "*.txt", "*.yml", "*.yaml"]
+"Model_Test" = ["weights/**/*.pth", "weights/**/*.pt", "data/**/*"]
+"Model_Train" = ["weights/**/*.pth", "weights/**/*.pt", "data/**/*"]
+"Quick_Start" = ["data/**/*"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+  # directories
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+  | weights
+  | logs
+  | data
+)/
+'''
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+line_length = 88
+known_first_party = ["Model_Test", "Model_Train", "Quick_Start"]
+skip_glob = ["weights/*", "logs/*", "data/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--cov=Model_Test",
+    "--cov=Model_Train",
+    "--cov=Quick_Start",
+    "--cov-report=term-missing",
+    "--cov-report=html"
+]
+
+[tool.coverage.run]
+source = ["Model_Test", "Model_Train", "Quick_Start"]
+omit = [
+    "*/tests/*",
+    "*/test_*",
+    "*/__pycache__/*",
+    "*/weights/*",
+    "*/logs/*",
+    "*/.venv/*"
+]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "if self.debug:",
+    "if settings.DEBUG",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if 0:",
+    "if __name__ == .__main__.:"
+]

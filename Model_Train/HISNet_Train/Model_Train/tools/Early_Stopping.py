@@ -35,5 +35,5 @@ class EarlyStopping:
         if self.verbose:
             print(f'Validation accuracy decreased ({self.val_acc_min:.6f} --> {val_acc:.6f}).  Saving model ...')
         path = os.path.join(self.save_path, 'best_network.pth')
-        torch.save(model.state_dict(), path)  # 这里会存储迄今最优模型的参数
+        torch.save(model.state_dict(), path)  # Store the best model parameters so far
         self.val_acc_min = val_acc
